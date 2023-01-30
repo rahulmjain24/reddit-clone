@@ -1,0 +1,23 @@
+.button {
+    width: 280px;
+    height: 40px;
+    border-radius: 20px;
+    border: 1px solid #dadce0;
+    cursor: pointer;
+}
+
+.button-container {
+    padding: 2px 10px;
+    height: 100%;
+}
+
+.orange {
+    background-color: #d93a00;
+    color: white;
+    font-weight: 700;
+}
+
+.orange:disabled {
+    cursor: not-allowed;
+    opacity: 0.2;
+}
