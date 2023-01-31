@@ -59,3 +59,11 @@
     color: #d93a00;
     font-size: 0.8em;
 }
+
+.go-back {
+    top: 24px;
+    width: 14px;
+    left: 55px;
+    padding: 8px;
+    cursor: pointer;
+}
