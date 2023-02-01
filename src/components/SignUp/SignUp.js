@@ -1,9 +1,11 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import "./SignUp.css"
 import BackContainer from '../BackContainer/BackContainer'
 import Button from '../Button/Button'
 import InputField from '../InputField/InputField'
 import validator from 'validator'
+import { UPDATE_DATA } from '../../redux/actionTypes'
 
 class SignUp extends React.Component {
     constructor(props) {
@@ -11,7 +13,7 @@ class SignUp extends React.Component {
         this.state = {
             email: {value: '', isValid: false, isModified: false},
             username: {value: '', isValid: false, isModified: false},
-            passoword: {value: '', isValid: false, isModified: false},
+            password: {value: '', isValid: false, isModified: false},
             isClicked: false
         }
     }
@@ -50,9 +52,9 @@ class SignUp extends React.Component {
             minNumbers: 0, 
             minSymbols: 0
         })) {
-            this.setState({passoword : {value: value, isValid: true, isModified: true}})
+            this.setState({password : {value: value, isValid: true, isModified: true}})
         } else {
-            this.setState({passoword : {value: value, isValid: false, isModified: true}})
+            this.setState({password : {value: value, isValid: false, isModified: true}})
         }
     }
 
@@ -97,11 +99,11 @@ class SignUp extends React.Component {
                                     type='password'
                                     label="Password"
                                     value={this.handlePassword}
-                                    className={!this.state.passoword.isValid && this.state.passoword.isModified ? 'orange-border' : ''}
-                                    labelClass={this.state.passoword.value !== '' ? 'label-up' : ''}
-                                    defaultValue={this.state.passoword.value}
+                                    className={!this.state.password.isValid && this.state.password.isModified ? 'orange-border' : ''}
+                                    labelClass={this.state.password.value !== '' ? 'label-up' : ''}
+                                    defaultValue={this.state.password.value}
                                 />
-                                {!this.state.passoword.isValid && this.state.passoword.isModified && <span className='orange-text'>The password must be atleast 8 characters long</span>}
+                                {!this.state.password.isValid && this.state.password.isModified && <span className='orange-text'>The password must be atleast 8 characters long</span>}
                             </>
                             :
                             <>
@@ -131,7 +133,14 @@ class SignUp extends React.Component {
                         }
                         {
                             this.state.isClicked ? 
-                            <Button click={() => {}} disabled={(!this.state.username.isValid || !this.state.passoword.isValid)} className="orange">Continue</Button>
+                            <Button click={() => {
+                                console.log('button clicked')
+                                this.props.setData({
+                                    email: this.state.email.value,
+                                    username: this.state.username.value,
+                                    password: this.state.password.value
+                                })
+                            }} disabled={(!this.state.username.isValid || !this.state.password.isValid)} className="orange">Continue</Button>
                             :
                             <>
                                 <Button click={this.handleIsClicked} disabled={!this.state.email.isValid} className="orange">Continue</Button>
@@ -145,4 +154,17 @@ class SignUp extends React.Component {
     }
 }
 
-export default SignUp
+const getUserData = (userProps) => {
+    return {
+        userData: userProps.userData
+    }
+}
+
+const setUserDataDispatch = {
+    setData: (payload) => ({
+        type: UPDATE_DATA,    
+        payload: {...payload}
+    })
+}
+
+export default connect(getUserData, setUserDataDispatch)(SignUp)
