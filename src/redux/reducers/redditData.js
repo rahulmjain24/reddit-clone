@@ -1,6 +1,7 @@
-import { DOWN_VOTE, UP_VOTE } from "../actionTypes";
+import { DOWN_VOTE, QUERY, UP_VOTE } from "../actionTypes";
 
 const initialState = {
+    query: '',
     posts : [
         {
             id: 1,
@@ -106,7 +107,12 @@ export default function (state = initialState, action) {
                 ]
             }
         }
-
+        case QUERY: {
+            return {
+                ...state,
+                query: action.query
+            }
+        }
         default:
             return state;
     }

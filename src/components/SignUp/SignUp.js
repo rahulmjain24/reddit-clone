@@ -14,7 +14,8 @@ class SignUp extends React.Component {
             email: {value: '', isValid: false, isModified: false},
             username: {value: '', isValid: false, isModified: false},
             password: {value: '', isValid: false, isModified: false},
-            isClicked: false
+            isClicked: false,
+            showSuceess: false
         }
     }
 
@@ -107,7 +108,7 @@ class SignUp extends React.Component {
                             </>
                             :
                             <>
-                                <Button>
+                                {/* <Button>
                                     <span className="icon d-block"><img src="svg/google.svg" alt="" /></span>
                                     <span className="text">Continue with Google</span>
                                 </Button>
@@ -119,7 +120,7 @@ class SignUp extends React.Component {
                                     <span className="divider-line"></span>
                                     <span className="divider-text">OR</span>
                                     <span className="divider-line"></span>
-                                </div>
+                                </div> */}
                                 <InputField 
                                     type="email"
                                     label="Email" 
@@ -139,7 +140,11 @@ class SignUp extends React.Component {
                                     username: this.state.username.value,
                                     password: this.state.password.value
                                 })
-                                this.props.manageForm()
+                                this.setState({showSuceess : true}, () => {
+                                    setTimeout(() => {
+                                        this.props.manageForm()
+                                    }, 1 * 1000)
+                                })
                             }} disabled={(!this.state.username.isValid || !this.state.password.isValid)} className="orange">Continue</Button>
                             :
                             <>
@@ -147,6 +152,7 @@ class SignUp extends React.Component {
                                 <span>Already a redditor? <a href="/">Log In</a></span>
                             </>
                         }
+                        {this.state.showSuceess && <span className="blue-text">The account has been created successfully</span>}
                     </form>
                 </div>
             </BackContainer>

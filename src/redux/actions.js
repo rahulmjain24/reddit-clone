@@ -1,4 +1,4 @@
-import { DOWN_VOTE, SHOW_FORM, UPDATE_DATA, UP_VOTE } from "./actionTypes";
+import { DOWN_VOTE, QUERY, SHOW_FORM, UPDATE_DATA, UP_VOTE } from "./actionTypes";
 
 export const setUserDataDispatch = {
     setData: (payload) => ({
@@ -18,5 +18,9 @@ export const setRedditDataDispatch = {
     downVote: (id)=> ({
         type: DOWN_VOTE,
         id
+    }),
+    setQuery: (query) => ({
+        type: QUERY,
+        query
     })
 }

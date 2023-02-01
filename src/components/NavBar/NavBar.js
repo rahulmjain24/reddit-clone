@@ -3,9 +3,18 @@ import "./NavBar.css"
 import AuthButton from '../Button/AuthButton';
 import SearcBar from './SearchBar';
 import { connect } from 'react-redux';
-import { setUserDataDispatch } from '../../redux/actions';
+import { setUserDataDispatch, setRedditDataDispatch } from '../../redux/actions';
 
 class NavBar extends React.Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            query:''
+        }
+    }
+
+
     render() { 
         return (
             <header className="header position-fixed bg-white d-flex align-items-center">
@@ -18,7 +27,11 @@ class NavBar extends React.Component {
                         {/* <div className="home">
                             <div className="home-icon"><img src="svg/home.svg" alt="" /></div>
                         </div> */}
-                        <SearcBar />
+                        <SearcBar 
+                            change={(query) => {
+                                this.props.setQuery(query)
+                            }}
+                        />
                     </div>
                     <div className="auth-section d-flex align-items-center">
                         {/* <AuthButton>Get App</AuthButton> */}
@@ -31,4 +44,9 @@ class NavBar extends React.Component {
     }
 }
  
-export default connect(null, setUserDataDispatch)(NavBar)
+export default connect(
+    null, {
+        ...setUserDataDispatch,
+        ...setRedditDataDispatch
+    }
+)(NavBar)
