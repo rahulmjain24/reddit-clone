@@ -21,3 +21,23 @@
     cursor: not-allowed;
     opacity: 0.2;
 }
+
+.auth-button {
+    font-size: 14px;
+    min-height: 32px;
+    min-width: 32px;
+    padding: 4px 16px;
+    line-height: 21px;
+    border-radius: 50px;
+    background-color: inherit;
+    color: #0079d3;
+    border: 1px solid #0079d3;
+    cursor: pointer;
+}
+
+
+
+.blue {
+    background-color: #0079d3;
+    color: white;
+}

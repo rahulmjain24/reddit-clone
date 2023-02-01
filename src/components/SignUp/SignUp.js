@@ -5,7 +5,7 @@ import BackContainer from '../BackContainer/BackContainer'
 import Button from '../Button/Button'
 import InputField from '../InputField/InputField'
 import validator from 'validator'
-import { UPDATE_DATA } from '../../redux/actionTypes'
+import { setUserDataDispatch } from '../../redux/actions'
 
 class SignUp extends React.Component {
     constructor(props) {
@@ -68,7 +68,7 @@ class SignUp extends React.Component {
                             <img src="svg/back.svg" alt="" />
                         </div>
                     }
-                    <div className="close position-absolute">
+                    <div onClick={this.props.manageForm} className="close position-absolute">
                         <img src="svg/cross.svg" alt="" />
                     </div>
                     <form onSubmit={(e) => {
@@ -80,7 +80,7 @@ class SignUp extends React.Component {
                                 this.state.isClicked ? 
                                 <>Reddit is anonymous, so your username is what you’ll go by here. Choose wisely—because once you get a name, you can’t change it.</>
                                 :
-                                <>By continuing, you are setting up a Reddit account and agree to our <span className="blue">User Agreement</span> and <span className="blue">Privacy Policy</span>.</>
+                                <>By continuing, you are setting up a Reddit account and agree to our <span className="blue-text">User Agreement</span> and <span className="blue-text">Privacy Policy</span>.</>
                             }
                         </p>
                         {
@@ -134,12 +134,12 @@ class SignUp extends React.Component {
                         {
                             this.state.isClicked ? 
                             <Button click={() => {
-                                console.log('button clicked')
                                 this.props.setData({
                                     email: this.state.email.value,
                                     username: this.state.username.value,
                                     password: this.state.password.value
                                 })
+                                this.props.manageForm()
                             }} disabled={(!this.state.username.isValid || !this.state.password.isValid)} className="orange">Continue</Button>
                             :
                             <>
@@ -158,13 +158,6 @@ const getUserData = (userProps) => {
     return {
         userData: userProps.userData
     }
-}
-
-const setUserDataDispatch = {
-    setData: (payload) => ({
-        type: UPDATE_DATA,    
-        payload: {...payload}
-    })
 }
 
 export default connect(getUserData, setUserDataDispatch)(SignUp)

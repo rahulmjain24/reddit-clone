@@ -5,19 +5,68 @@
 
 .navbar {
     padding: 0 20px;
+    width: 100%;
 }
 
 .logo-icon {
     height: 32px;
     width: 32px;
+    margin-right: 8px;
 }
 
 .logo-name {
     width: 57px;
     height: 18px;
+    margin-right: 20px;
 }
 
 .home-icon img{
     height: 20px;
     width: 20px;
+}
+
+.search {
+    background-color: #f6f7f8;
+    margin: 0 20px;
+    padding: 8px 15px;
+    border-radius: 20px;
+    border: 1px solid rgb(228, 228, 228);
+    max-width: 690px;
+}
+
+.search:focus-within,
+.search:hover {
+    border: 1px solid #0079d3;
+}
+
+.search-input {
+    border: none;
+    background-color: inherit;
+    height: 20px;
+    line-height: 14px;
+    font-size: 14px;
+    margin-right:10px;
+    width: 100%;
+}
+
+.search-input:focus {
+    outline: none;
+}
+
+.search-label {
+    margin-right: 10px;
+}
+
+.auth-section {
+    gap:10px;
+}
+
+@media screen and (max-width:650px) {
+    .logo-name {
+        display: none;
+    }
+
+    .navbar {
+        padding: 0 10px;
+    }
 }

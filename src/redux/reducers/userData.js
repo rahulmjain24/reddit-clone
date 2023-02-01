@@ -1,20 +1,30 @@
-import { UPDATE_DATA } from "../actionTypes";
+import { SHOW_FORM, UPDATE_DATA } from "../actionTypes";
 
 const initialState = {
-    email: '',
-    username: '',
-    password: ''
+    data: {
+        email: '',
+        username: '',
+        password: ''
+    },
+    showForm: false
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default function (state = initialState, action) {
-    console.log(action)
     switch (action.type) {
         case UPDATE_DATA: {
             const payload = action.payload
             return {
                 ...state,
-                ...payload
+                data: {
+                    ...payload
+                }
+            }
+        }
+        case SHOW_FORM: {
+            return {
+                ...state,
+                showForm: !state.showForm
             }
         }
         default:
