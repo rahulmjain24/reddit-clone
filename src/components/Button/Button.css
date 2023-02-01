@@ -41,3 +41,9 @@
     background-color: #0079d3;
     color: white;
 }
+
+.red {
+    background-color: red;
+    color: white;
+    border: 1px solid transparent;
+}

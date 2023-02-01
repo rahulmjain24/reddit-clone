@@ -16,6 +16,7 @@ class NavBar extends React.Component {
 
 
     render() { 
+        console.log(this.props)
         return (
             <header className="header position-fixed bg-white d-flex align-items-center">
                 <div className="navbar d-flex flex-nowrap">
@@ -35,7 +36,13 @@ class NavBar extends React.Component {
                     </div>
                     <div className="auth-section d-flex align-items-center">
                         {/* <AuthButton>Get App</AuthButton> */}
-                        <AuthButton click={this.props.manageForm} className="blue">Log In</AuthButton>
+                        {this.props.userData.data.isLoggedIn && <span>{this.props.userData.data.username}</span>}
+                            {   
+                                this.props.userData.data.isLoggedIn ? 
+                                <AuthButton click={this.props.logout} className="red">Log Out</AuthButton>
+                                : 
+                                <AuthButton click={this.props.manageForm} className="blue">Log In</AuthButton>
+                            }
                     </div>
                 </div>
 
@@ -43,9 +50,16 @@ class NavBar extends React.Component {
         )
     }
 }
+
+const getUserData = (userProps) => {
+    return {
+        userData: userProps.userData
+    }
+}
  
 export default connect(
-    null, {
+    getUserData, 
+    {
         ...setUserDataDispatch,
         ...setRedditDataDispatch
     }

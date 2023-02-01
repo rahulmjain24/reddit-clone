@@ -14,7 +14,6 @@ class Posts extends React.Component {
 
 
     render() { 
-        console.log(this.props)
         const { query ,posts } = this.props
         return (
             <div className="posts d-flex flex-column align-items-center">

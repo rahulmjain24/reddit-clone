@@ -1,4 +1,4 @@
-import { DOWN_VOTE, QUERY, SHOW_FORM, UPDATE_DATA, UP_VOTE } from "./actionTypes";
+import { DOWN_VOTE, LOGOUT, QUERY, SHOW_FORM, UPDATE_DATA, UP_VOTE } from "./actionTypes";
 
 export const setUserDataDispatch = {
     setData: (payload) => ({
@@ -7,6 +7,9 @@ export const setUserDataDispatch = {
     }),
     manageForm: () => ({
         type: SHOW_FORM
+    }),
+    logout: () => ({
+        type: LOGOUT
     })
 }
 

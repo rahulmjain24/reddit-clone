@@ -1,10 +1,11 @@
-import { SHOW_FORM, UPDATE_DATA } from "../actionTypes";
+import { LOGOUT, SHOW_FORM, UPDATE_DATA } from "../actionTypes";
 
 const initialState = {
     data: {
         email: '',
         username: '',
-        password: ''
+        password: '',
+        isLoggedIn: false
     },
     showForm: false
 };
@@ -25,6 +26,17 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 showForm: !state.showForm
+            }
+        }
+        case LOGOUT: {
+            return {
+                ...state,
+                data : {
+                    email: '',
+                    username: '',
+                    password: '',
+                    isLoggedIn: false
+                }
             }
         }
         default:

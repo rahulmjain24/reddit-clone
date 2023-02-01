@@ -138,7 +138,8 @@ class SignUp extends React.Component {
                                 this.props.setData({
                                     email: this.state.email.value,
                                     username: this.state.username.value,
-                                    password: this.state.password.value
+                                    password: this.state.password.value,
+                                    isLoggedIn: true
                                 })
                                 this.setState({showSuceess : true}, () => {
                                     setTimeout(() => {
@@ -149,7 +150,7 @@ class SignUp extends React.Component {
                             :
                             <>
                                 <Button click={this.handleIsClicked} disabled={!this.state.email.isValid} className="orange">Continue</Button>
-                                <span>Already a redditor? <a href="/">Log In</a></span>
+                                {/* <span>Already a redditor? <a href="/">Log In</a></span> */}
                             </>
                         }
                         {this.state.showSuceess && <span className="blue-text">The account has been created successfully</span>}

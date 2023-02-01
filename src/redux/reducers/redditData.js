@@ -1,4 +1,5 @@
 import { DOWN_VOTE, QUERY, UP_VOTE } from "../actionTypes";
+import moment from "moment";
 
 const initialState = {
     query: '',
@@ -10,9 +11,10 @@ const initialState = {
             subReddit: 'india',
             user: 'TodayEasy948',
             votes: 207,
-            time: '13 hours ago',
+            time: moment("2023-01-15", "YYYY-MM-DD"),
             comments: 95,
-            image: ''
+            image: '',
+            rImage: 'https://styles.redditmedia.com/t5_2qh1q/styles/communityIcon_9ggb2zkszbf91.png?width=256&v=enabled&s=d19a33f79f962735225df7d9eea689c513ee3533'
             
         },
         {
@@ -22,9 +24,10 @@ const initialState = {
             subReddit: 'bangalore',
             user: 'chipkali_lover',
             votes: 453,
-            time: '15 hours ago',
+            time: moment("2023-01-1", "YYYY-MM-DD"),
             comments: 118,
-            image: 'https://i.redd.it/0nt7xr818efa1.png'
+            image: 'https://i.redd.it/0nt7xr818efa1.png',
+            rImage: 'https://styles.redditmedia.com/t5_2qhvf/styles/communityIcon_pulpp8crshh91.png?width=256&v=enabled&s=184efbe79943f34f8993de092e06da451d32825e'
             
         },
         {
@@ -34,9 +37,10 @@ const initialState = {
             subReddit: 'IndiaTax',
             user: 'aakashparikh1',
             votes: 1,
-            time: '2 hours ago',
+            time: moment("2022-12-21", "YYYY-MM-DD"),
             comments: 4,
-            image: ''
+            image: '',
+            rImage: 'https://styles.redditmedia.com/t5_2mvcfn/styles/communityIcon_clse7vbu9sw41.jpg?width=256&format=pjpg&v=enabled&s=12ed50694957b83cf4adcc8f9f4b975c161c0731'
             
         },
         {
@@ -46,9 +50,10 @@ const initialState = {
             subReddit: 'HomeDepot',
             user: 'JKGHosty',
             votes: 630,
-            time: '21 hours ago',
+            time: moment("2023-01-10", "YYYY-MM-DD"),
             comments: 336,
-            image: 'https://i.redd.it/sif17hkwsefa1.jpg'
+            image: 'https://i.redd.it/sif17hkwsefa1.jpg',
+            rImage: 'https://styles.redditmedia.com/t5_2tjjm/styles/communityIcon_v9qht35ddjf91.png?width=256&v=enabled&s=d029e961aa2dceaebe8a2d4796f413af8e4917ff'
             
         },
         {
@@ -58,9 +63,10 @@ const initialState = {
             subReddit: 'Minecraft',
             user: 'mountaindrew000',
             votes: 11600,
-            time: '13 days ago',
+            time: moment("2023-01-29", "YYYY-MM-DD"),
             comments: 3900,
-            image: 'https://i.redd.it/g217bdb2eyca1.jpg'
+            image: 'https://i.redd.it/g217bdb2eyca1.jpg',
+            rImage: 'https://b.thumbs.redditmedia.com/rwN0al9P6nYhGSQO-yIJb-FyF5xg-c2v61zjMom4c4E.png'
             
         },
         {
@@ -70,9 +76,10 @@ const initialState = {
             subReddit: 'football',
             user: 'balloonz_v1',
             votes: 2900,
-            time: '1 month ago',
+            time: moment("2023-02-1", "YYYY-MM-DD"),
             comments: 2700,
-            image: 'https://i.redd.it/wd54pfh5fu6a1.jpg'
+            image: 'https://i.redd.it/wd54pfh5fu6a1.jpg',
+            rImage: 'https://styles.redditmedia.com/t5_2qkr5/styles/communityIcon_kqes2ztdbgc61.png?width=256&v=enabled&s=876259e71928ada72237b74bb9bde282beec5ed3'
             
         }
     ]
