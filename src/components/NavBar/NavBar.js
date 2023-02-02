@@ -35,7 +35,7 @@ class NavBar extends React.Component {
                     </div>
                     <div className="auth-section d-flex align-items-center">
                         {/* <AuthButton>Get App</AuthButton> */}
-                        {this.props.userData.data.isLoggedIn && <span>{this.props.userData.data.username}</span>}
+                        {this.props.userData.data.isLoggedIn && <span className='user-name'>{this.props.userData.data.username}</span>}
                             {   
                                 this.props.userData.data.isLoggedIn ? 
                                 <AuthButton click={this.props.logout} className="red">Log Out</AuthButton>

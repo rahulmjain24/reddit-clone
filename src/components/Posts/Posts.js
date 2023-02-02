@@ -2,7 +2,6 @@ import React from 'react'
 import "./Posts.css"
 import Post from './Post/Post'
 import { connect } from 'react-redux'
-import { setRedditDataDispatch, setUserDataDispatch } from '../../redux/actions'
 
 class Posts extends React.Component {
 
@@ -14,24 +13,14 @@ class Posts extends React.Component {
 
 
     render() { 
-        const { query ,posts, userData, manageForm, upVote, downVote } = this.props
+        const { query ,posts } = this.props
         return (
             <div className="posts d-flex flex-column align-items-center">
                 {
                     query === '' ?
                     posts.map((post) => {
                         return (
-                            <Post 
-                                voteValue={userData.data.voteValue}
-                                upVote={userData.data.isLoggedIn ? upVote : manageForm}
-                                downVote={userData.data.isLoggedIn ? downVote : manageForm}
-                                onEdit={
-                                    {logged: userData.data.isLoggedIn,
-                                    manageForm}
-                                }
-                                setData={(id, data) => {
-                                    this.props.updateData(id,data)
-                                }}
+                            <Post
                                 key={post.id} 
                                 {...post}
                             />
@@ -50,16 +39,6 @@ class Posts extends React.Component {
                     .map((post) => {
                         return (
                             <Post 
-                                voteValue={userData.data.voteValue}
-                                upVote={userData.data.isLoggedIn ? upVote : manageForm}
-                                downVote={userData.data.isLoggedIn ? downVote : manageForm}
-                                onEdit={
-                                    {logged: userData.data.isLoggedIn,
-                                    manageForm}
-                                }
-                                setData={(id, data) => {
-                                    this.props.updateData(id,data)
-                                }}
                                 key={post.id} 
                                 {...post}
                             />
@@ -73,15 +52,8 @@ class Posts extends React.Component {
 
 const getPosts = (postProps) => {
     return {
-        ...postProps.redditData,
-        userData: postProps.userData
+        ...postProps.redditData
     }
 }
  
-export default connect(
-    getPosts, 
-    {
-        ...setRedditDataDispatch,
-        ...setUserDataDispatch
-    }
-)(Posts)
+export default connect(getPosts)(Posts)

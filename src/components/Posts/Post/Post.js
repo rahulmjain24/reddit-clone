@@ -3,7 +3,8 @@ import "./Post.css"
 import moment from "moment"
 import Edit from "./Edit"
 import validator from "validator"
-
+import { connect } from "react-redux"
+import { setRedditDataDispatch, setUserDataDispatch } from "../../../redux/actions"
 
 class Post extends React.Component {
     constructor(props) {
@@ -13,7 +14,8 @@ class Post extends React.Component {
             post: {value: '', isValid: true},
             image: {value: '', isValid: true},
             isBeingEdited: false,
-            vote: {upvote: false, downvote: false }
+            upvote: false, 
+            downvote: false 
         }
     }
 
@@ -27,55 +29,78 @@ class Post extends React.Component {
 
     handleUpvote = () => {
         let vote = 0
-        if(this.state.vote.upvote) {
-            if(this.state.vote.downvote) {
-                vote++
-                this.setState({vote: {
-                    upvote: true,
-                    downvote: false
-                }})
-            }
+        if(this.state.downvote) {
             vote++
         }
+        if(this.state.upvote) {
+            this.setState({ upvote: false})
+            vote--
+        } else {
+            this.setState( {upvote : true, downvote: false} )
+            vote++
+        }
+        this.props.upVote(this.props.id, vote)
+    }
 
-        if(this.state.vote.downvote) {
-            if(this.state.vote.upvote) {
-                vote--
-                this.setState({vote: {
-                    upvote: true,
-                    downvote: false
-                }})
-            }
+    handleDownvote = () => {
+        let vote = 0
+        if(this.state.upvote) {
             vote--
         }
+        if(this.state.downvote) {
+            this.setState({ downvote: false})
+            vote++
+        } else {
+            this.setState( {upvote : false, downvote: true} )
+            vote--
+        }
+        this.props.downVote(this.props.id, vote)
+    }
 
-
+    componentDidUpdate() {
+        if(!this.props.userData.data.isLoggedIn && this.state.isBeingEdited) {
+            this.setState({ 
+                title: {value: '', isValid: true},
+                post: {value: '', isValid: true},
+                image: {value: '', isValid: true},
+                isBeingEdited: false 
+            })
+        }
     }
  
     render() {
+        // console.log(this.props)
         const time = moment.duration(moment().diff(this.props.time))
         return (
             <div className="post d-flex flex-start">
                 <div className="vote d-flex flex-column align-items-center">
                     <div
                         onClick={() => {
-                            this.props.upVote(this.props.id, 1)
+                            if(this.props.userData.data.isLoggedIn) {
+                                this.handleUpvote()
+                            } else {
+                                this.props.manageForm()
+                            }
                         }}
                         className="arrow"
                     >
-                        <i className={`fa-solid fa-chevron-up fa-xl ${this.state.vote.upvote && 'orange-text'}`}></i>
+                        <i className={`fa-solid fa-chevron-up fa-xl ${(this.state.upvote && this.props.userData.data.isLoggedIn) && 'orange-text'}`}></i>
                     </div>
                     <span className="vote-count">{this.props.votes}</span>
                     <div
                         onClick={() => {
-                            this.props.downVote(this.props.id, -1)
+                            if(this.props.userData.data.isLoggedIn) {
+                                this.handleDownvote()
+                            } else {
+                                this.props.manageForm()
+                            }
                         }}
                         className="arrow"
                     >
-                        <i className={`fa-solid fa-chevron-down fa-xl ${this.state.vote.downvote && 'orange-text'}`}></i>
+                        <i className={`fa-solid fa-chevron-down fa-xl ${(this.state.downvote && this.props.userData.data.isLoggedIn) && 'orange-text'}`}></i>
                     </div>
                 </div>
-                <div className="post-data flex-grow-1">
+                <div className="post-data flex-grow-1 d-flex flex-column">
                     <div className="meta-data d-flex">
                         <div className="r-image">
                             <img src={this.props.rImage} alt="" />
@@ -99,7 +124,7 @@ class Post extends React.Component {
                         </div>
                     </div>
                     {
-                        this.state.isBeingEdited && this.props.onEdit.logged ? 
+                        this.state.isBeingEdited && this.props.userData.data.isLoggedIn ? 
                         <>
                             <h4 className="title">
                                 <Edit 
@@ -165,7 +190,7 @@ class Post extends React.Component {
                             <h4 className="title">{this.props.title}</h4>
                             {
                                 this.props.image ?
-                                <img className="post-image" src={this.props.image} alt="Post" />
+                                <img className="post-image align-self-center" src={this.props.image} alt="Post" />
                                 :
                                 <div className="extra-data">{this.props.post}</div>
                             }
@@ -183,14 +208,14 @@ class Post extends React.Component {
                         </div>
                         <button 
                             disabled={
-                                this.state.isBeingEdited ?
+                                this.state.isBeingEdited && this.props.userData.data.isLoggedIn ?
                                 !this.isValid()
                                 :
                                 false
                             }
                             className="on-edit" 
                             onClick={() => {
-                                if(this.props.onEdit.logged) {
+                                if(this.props.userData.data.isLoggedIn) {
                                     let editedObj = {}
                                     this.setState((prevState) => {
                                         return {
@@ -207,14 +232,14 @@ class Post extends React.Component {
                                     if(image.value !== '' && image.isValid) {
                                         editedObj['image'] = image.value
                                     }
-                                    this.props.setData(this.props.id, editedObj)
+                                    this.props.updateData(this.props.id, editedObj)
                                 } else {
-                                    this.props.onEdit.manageForm()
+                                    this.props.manageForm()
                                 }
                             }}
                         >
                             <i className="fa-solid fa-ellipsis fa-xl footer-icon"></i>
-                            {this.state.isBeingEdited && this.props.onEdit.logged ? 'Save' : 'Edit'}
+                            {this.state.isBeingEdited && this.props.userData.data.isLoggedIn ? 'Save' : 'Edit'}
                         </button>
                     </div>
                 </div>
@@ -223,4 +248,13 @@ class Post extends React.Component {
     }
 }
 
-export default Post
+const getUserData = (userProps) => {
+    return {
+        userData: userProps.userData
+    }
+}
+
+export default connect(getUserData, {
+    ...setRedditDataDispatch,
+    ...setUserDataDispatch
+})(Post)

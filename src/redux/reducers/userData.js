@@ -6,7 +6,9 @@ const initialState = {
         username: '',
         password: '',
         isLoggedIn: false,
-        voteValue: 0
+        voteValue: 0,
+        upVoted: [],
+        downVoted: []
     },
     showForm: false
 };

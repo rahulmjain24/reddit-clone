@@ -61,6 +61,10 @@
     gap:10px;
 }
 
+.user-name {
+    font-size: 12px;
+}
+
 @media screen and (max-width:650px) {
     .logo-name {
         display: none;
@@ -68,5 +72,9 @@
 
     .navbar {
         padding: 0 10px;
+    }
+
+    .user-name {
+        display: none;
     }
 }
