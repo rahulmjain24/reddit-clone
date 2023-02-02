@@ -1,4 +1,4 @@
-import { DOWN_VOTE, LOGOUT, QUERY, SHOW_FORM, UPDATE_DATA, UP_VOTE } from "./actionTypes";
+import { DOWN_VOTE, LOGOUT, QUERY, SHOW_FORM, UPDATE_DATA, UPDATE_REDDIT, UP_VOTE } from "./actionTypes";
 
 export const setUserDataDispatch = {
     setData: (payload) => ({
@@ -14,16 +14,23 @@ export const setUserDataDispatch = {
 }
 
 export const setRedditDataDispatch = {
-    upVote: (id) => ({
+    upVote: (id, value) => ({
         type: UP_VOTE,
-        id
+        id,
+        value
     }),
-    downVote: (id)=> ({
+    downVote: (id, value)=> ({
         type: DOWN_VOTE,
-        id
+        id,
+        value
     }),
     setQuery: (query) => ({
         type: QUERY,
         query
+    }),
+    updateData: (id, data) => ({
+        type: UPDATE_REDDIT,
+        id,
+        data
     })
 }

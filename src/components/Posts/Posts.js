@@ -2,7 +2,7 @@ import React from 'react'
 import "./Posts.css"
 import Post from './Post/Post'
 import { connect } from 'react-redux'
-import { setRedditDataDispatch } from '../../redux/actions'
+import { setRedditDataDispatch, setUserDataDispatch } from '../../redux/actions'
 
 class Posts extends React.Component {
 
@@ -14,7 +14,7 @@ class Posts extends React.Component {
 
 
     render() { 
-        const { query ,posts } = this.props
+        const { query ,posts, userData, manageForm, upVote, downVote } = this.props
         return (
             <div className="posts d-flex flex-column align-items-center">
                 {
@@ -22,8 +22,16 @@ class Posts extends React.Component {
                     posts.map((post) => {
                         return (
                             <Post 
-                                upVote={this.props.upVote}
-                                downVote={this.props.downVote}
+                                voteValue={userData.data.voteValue}
+                                upVote={userData.data.isLoggedIn ? upVote : manageForm}
+                                downVote={userData.data.isLoggedIn ? downVote : manageForm}
+                                onEdit={
+                                    {logged: userData.data.isLoggedIn,
+                                    manageForm}
+                                }
+                                setData={(id, data) => {
+                                    this.props.updateData(id,data)
+                                }}
                                 key={post.id} 
                                 {...post}
                             />
@@ -42,8 +50,16 @@ class Posts extends React.Component {
                     .map((post) => {
                         return (
                             <Post 
-                                upVote={this.props.upVote}
-                                downVote={this.props.downVote}
+                                voteValue={userData.data.voteValue}
+                                upVote={userData.data.isLoggedIn ? upVote : manageForm}
+                                downVote={userData.data.isLoggedIn ? downVote : manageForm}
+                                onEdit={
+                                    {logged: userData.data.isLoggedIn,
+                                    manageForm}
+                                }
+                                setData={(id, data) => {
+                                    this.props.updateData(id,data)
+                                }}
                                 key={post.id} 
                                 {...post}
                             />
@@ -57,8 +73,15 @@ class Posts extends React.Component {
 
 const getPosts = (postProps) => {
     return {
-        ...postProps.redditData  
+        ...postProps.redditData,
+        userData: postProps.userData
     }
 }
  
-export default connect(getPosts, setRedditDataDispatch)(Posts)
+export default connect(
+    getPosts, 
+    {
+        ...setRedditDataDispatch,
+        ...setUserDataDispatch
+    }
+)(Posts)

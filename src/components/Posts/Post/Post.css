@@ -58,6 +58,47 @@
     margin:0 5px ;
 }
 
+.edit-con {
+    font-size: 14px;
+    border: 1px solid rgb(195, 195, 195);
+    padding: 5px 10px;
+    border-radius: 3px;
+}
+
+.edit {
+    width: 100%;
+    border: none;
+}
+
+.edit:focus {
+    outline: none;
+}
+
+.on-edit {
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 2px;
+    border: none;
+    background-color: inherit;
+    color: inherit;
+}
+
+.on-edit:hover {
+    background-color: rgb(232, 232, 232);
+}
+
+.on-edit:disabled {
+    cursor: not-allowed;
+}
+
+.red-text {
+    color: red;
+}
+
+.orange-text {
+    color: #d93a00;
+}
+
 @media screen and (max-width:650px) {
     .post {
         width: auto;

@@ -4,3 +4,4 @@ export const UP_VOTE = "UP_VOTE"
 export const DOWN_VOTE = "DOWN_VOTE"
 export const QUERY = "QUERY"
 export const LOGOUT = 'LOGOUT'
+export const UPDATE_REDDIT = "UPDATE_REDDIT"

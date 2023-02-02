@@ -1,4 +1,4 @@
-import { DOWN_VOTE, QUERY, UP_VOTE } from "../actionTypes";
+import { DOWN_VOTE, QUERY, UPDATE_REDDIT, UP_VOTE } from "../actionTypes";
 import moment from "moment";
 
 const initialState = {
@@ -81,6 +81,32 @@ const initialState = {
             image: 'https://i.redd.it/wd54pfh5fu6a1.jpg',
             rImage: 'https://styles.redditmedia.com/t5_2qkr5/styles/communityIcon_kqes2ztdbgc61.png?width=256&v=enabled&s=876259e71928ada72237b74bb9bde282beec5ed3'
             
+        },
+        {
+            id: 7,
+            title: 'what do we think is gonna happen here? will people who share accounts get their own? or will this cause backlash? money loss or money gain for netflix? what do we think?',
+            post: "",
+            subReddit: 'mildlyinfuriating',
+            user: 'fforeverrfriend',
+            votes: 20000,
+            time: moment("2023-02-2", "YYYY-MM-DD"),
+            comments:5600,
+            image: 'https://i.redd.it/q79zinutzofa1.jpg',
+            rImage: 'https://styles.redditmedia.com/t5_2ubgg/styles/communityIcon_lkxajjefezh51.png?width=256&v=enabled&s=e9f08e5f20f9c160ae08bda2cfd54ad5af270323'
+            
+        },
+        {
+            id: 8,
+            title: 'Adani Group shares have seen massive losses following the release of a damaging Hindenburg report. The combined market value of the group shares has eroded by 38 per cent in just five trading sessions',
+            post: "",
+            subReddit: 'india',
+            user: 'Time-Profession6258',
+            votes: 1900,
+            time: moment("2023-02-1", "YYYY-MM-DD"),
+            comments:263,
+            image: 'https://external-preview.redd.it/9p13bKuq1BS8sICS6Da9IviKB7eTD5u_MfO2bcD8hc8.jpg?width=640&crop=smart&auto=webp&v=enabled&s=6546a437e91368e1bf437069bee094d67dda5e7f',
+            rImage: 'https://styles.redditmedia.com/t5_2qh1q/styles/communityIcon_9ggb2zkszbf91.png?width=256&v=enabled&s=d19a33f79f962735225df7d9eea689c513ee3533'
+            
         }
     ]
 };
@@ -93,7 +119,7 @@ export default function (state = initialState, action) {
             const post = posts.find((post) => {
                 return post.id === action.id
             })
-            post.votes++
+            post.votes += action.value
             return {
                 ...state,
                 posts: [
@@ -106,7 +132,7 @@ export default function (state = initialState, action) {
             const post = posts.find((post) => {
                 return post.id === action.id
             })
-            post.votes--
+            post.votes += action.value
             return {
                 ...state,
                 posts: [
@@ -118,6 +144,28 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 query: action.query
+            }
+        }
+        case UPDATE_REDDIT: {
+            const posts = state.posts
+            const post = posts.find((post) => {
+                return post.id === action.id
+            })
+            if(action.data.title) {
+                post.title = action.data.title
+            }
+            if(action.data.post) {
+                post.post = action.data.post
+            }
+            if(action.data.image) {
+                post.image = action.data.image
+            }
+
+            return {
+                ...state,
+                posts: [
+                    ...state.posts
+                ]
             }
         }
         default:

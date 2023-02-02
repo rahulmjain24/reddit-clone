@@ -142,9 +142,7 @@ class SignUp extends React.Component {
                                     isLoggedIn: true
                                 })
                                 this.setState({showSuceess : true}, () => {
-                                    setTimeout(() => {
-                                        this.props.manageForm()
-                                    }, 1 * 1000)
+                                    this.props.manageForm()  
                                 })
                             }} disabled={(!this.state.username.isValid || !this.state.password.isValid)} className="orange">Continue</Button>
                             :

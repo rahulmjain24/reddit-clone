@@ -5,7 +5,8 @@ const initialState = {
         email: '',
         username: '',
         password: '',
-        isLoggedIn: false
+        isLoggedIn: false,
+        voteValue: 0
     },
     showForm: false
 };
@@ -18,7 +19,8 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 data: {
-                    ...payload
+                    ...payload,
+                    voteValue: 0
                 }
             }
         }
