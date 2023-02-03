@@ -27,36 +27,6 @@ class Post extends React.Component {
         )
     }
 
-    handleUpvote = () => {
-        let vote = 0
-        if(this.state.downvote) {
-            vote++
-        }
-        if(this.state.upvote) {
-            this.setState({ upvote: false})
-            vote--
-        } else {
-            this.setState( {upvote : true, downvote: false} )
-            vote++
-        }
-        this.props.upVote(this.props.id, vote)
-    }
-
-    handleDownvote = () => {
-        let vote = 0
-        if(this.state.upvote) {
-            vote--
-        }
-        if(this.state.downvote) {
-            this.setState({ downvote: false})
-            vote++
-        } else {
-            this.setState( {upvote : false, downvote: true} )
-            vote--
-        }
-        this.props.downVote(this.props.id, vote)
-    }
-
     componentDidUpdate() {
         if(!this.props.userData.data.isLoggedIn && this.state.isBeingEdited) {
             this.setState({ 
@@ -69,44 +39,59 @@ class Post extends React.Component {
     }
  
     render() {
-        // console.log(this.props)
-        const time = moment.duration(moment().diff(this.props.time))
+        const time = moment.duration(moment().diff(this.props.postData.time))
         return (
             <div className="post d-flex flex-start">
                 <div className="vote d-flex flex-column align-items-center">
                     <div
                         onClick={() => {
                             if(this.props.userData.data.isLoggedIn) {
-                                this.handleUpvote()
+                                if(this.props.userData.data.upVoted.includes(this.props.postData.id)) {
+                                    this.props.upVote(this.props.postData.id, -1)                                    
+                                } else {
+                                    if(this.props.userData.data.downVoted.includes(this.props.postData.id)) {
+                                        this.props.upVote(this.props.postData.id, 2)
+                                    } else {
+                                        this.props.upVote(this.props.postData.id, 1)
+                                    }
+                                }
                             } else {
                                 this.props.manageForm()
                             }
                         }}
                         className="arrow"
                     >
-                        <i className={`fa-solid fa-chevron-up fa-xl ${(this.state.upvote && this.props.userData.data.isLoggedIn) && 'orange-text'}`}></i>
+                        <i className={`fa-solid fa-chevron-up fa-xl ${(this.props.userData.data.upVoted.includes(this.props.postData.id) && this.props.userData.data.isLoggedIn) && 'orange-text'}`}></i>
                     </div>
-                    <span className="vote-count">{this.props.votes}</span>
+                    <span className="vote-count">{this.props.postData.votes}</span>
                     <div
                         onClick={() => {
                             if(this.props.userData.data.isLoggedIn) {
-                                this.handleDownvote()
+                                if(this.props.userData.data.downVoted.includes(this.props.postData.id)) {
+                                    this.props.downVote(this.props.postData.id, 1)                                    
+                                } else {
+                                    if(this.props.userData.data.upVoted.includes(this.props.postData.id)) {
+                                        this.props.downVote(this.props.postData.id, -2)
+                                    } else {
+                                        this.props.downVote(this.props.postData.id, -1)
+                                    }
+                                }
                             } else {
                                 this.props.manageForm()
                             }
                         }}
                         className="arrow"
                     >
-                        <i className={`fa-solid fa-chevron-down fa-xl ${(this.state.downvote && this.props.userData.data.isLoggedIn) && 'orange-text'}`}></i>
+                        <i className={`fa-solid fa-chevron-down fa-xl ${(this.props.userData.data.downVoted.includes(this.props.postData.id) && this.props.userData.data.isLoggedIn) && 'orange-text'}`}></i>
                     </div>
                 </div>
                 <div className="post-data flex-grow-1 d-flex flex-column">
                     <div className="meta-data d-flex">
                         <div className="r-image">
-                            <img src={this.props.rImage} alt="" />
+                            <img src={this.props.postData.rImage} alt="" />
                         </div>
-                        <div className="r-reddit"><b>r/{this.props.subReddit}</b></div>
-                        <div className="r-user">Posted by u/{this.props.user}</div>
+                        <div className="r-reddit"><b>r/{this.props.postData.subReddit}</b></div>
+                        <div className="r-user">Posted by u/{this.props.postData.user}</div>
                         <div className="r-time">
                             {
                                 Math.floor(time.asHours()) <= 24 ?
@@ -129,9 +114,9 @@ class Post extends React.Component {
                             <h4 className="title">
                                 <Edit 
                                     label='Title :'
-                                    htmlFor={this.props.id + 'title'}
+                                    htmlFor={this.props.postData.id + 'title'}
                                     rows='3'
-                                    defaultValue={this.props.title}
+                                    defaultValue={this.props.postData.title}
                                     change={(e) => {
                                         if(validator.isEmpty(e.target.value, {
                                             ignore_whitespace: true
@@ -145,13 +130,13 @@ class Post extends React.Component {
                                 {!this.state.title.isValid && <span className='red-text'>Title can't be empty</span>}
                             </h4>
                             {
-                                this.props.image ?
+                                this.props.postData.image ?
                                 <>
                                 <Edit 
                                     label='Image Url :'
-                                    htmlFor={this.props.id + 'image'}
+                                    htmlFor={this.props.postData.id + 'image'}
                                     rows='2'
-                                    defaultValue={this.props.image}
+                                    defaultValue={this.props.postData.image}
                                     change={(e) => {
                                         if(validator.isEmpty(e.target.value, {
                                             ignore_whitespace: true
@@ -168,9 +153,9 @@ class Post extends React.Component {
                                 <div className="extra-data">
                                     <Edit 
                                         label='Info :'
-                                        htmlFor={this.props.id + 'post'}
+                                        htmlFor={this.props.postData.id + 'post'}
                                         rows='7'
-                                        defaultValue={this.props.post}
+                                        defaultValue={this.props.postData.post}
                                         change={(e) => {
                                             if(validator.isEmpty(e.target.value, {
                                                 ignore_whitespace: true
@@ -187,12 +172,12 @@ class Post extends React.Component {
                         </>
                         :
                         <>
-                            <h4 className="title">{this.props.title}</h4>
+                            <h4 className="title">{this.props.postData.title}</h4>
                             {
-                                this.props.image ?
-                                <img className="post-image align-self-center" src={this.props.image} alt="Post" />
+                                this.props.postData.image ?
+                                <img className="post-image align-self-center" src={this.props.postData.image} alt="Post" />
                                 :
-                                <div className="extra-data">{this.props.post}</div>
+                                <div className="extra-data">{this.props.postData.post}</div>
                             }
                         </>
                     }
@@ -200,7 +185,7 @@ class Post extends React.Component {
                     <div className="post-footer d-flex align-items-center">
                         <div className="comments on-edit">
                             <i className="fa-regular fa-message fa-xl footer-icon"></i>
-                            {this.props.comments} Comments
+                            {this.props.postData.comments} Comments
                         </div>
                         <div className="share on-edit">
                             <i className="fa-solid fa-share fa-xl footer-icon"></i>
@@ -232,7 +217,7 @@ class Post extends React.Component {
                                     if(image.value !== '' && image.isValid) {
                                         editedObj['image'] = image.value
                                     }
-                                    this.props.updateData(this.props.id, editedObj)
+                                    this.props.updateData(this.props.postData.id, editedObj)
                                 } else {
                                     this.props.manageForm()
                                 }
@@ -250,7 +235,8 @@ class Post extends React.Component {
 
 const getUserData = (userProps) => {
     return {
-        userData: userProps.userData
+        userData: userProps.userData,
+
     }
 }
 

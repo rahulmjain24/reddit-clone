@@ -11,7 +11,6 @@ class Posts extends React.Component {
         })
     }
 
-
     render() { 
         const { query ,posts } = this.props
         return (
@@ -22,7 +21,7 @@ class Posts extends React.Component {
                         return (
                             <Post
                                 key={post.id} 
-                                {...post}
+                                postData={{...post}}
                             />
                         )
                     })
@@ -40,7 +39,7 @@ class Posts extends React.Component {
                         return (
                             <Post 
                                 key={post.id} 
-                                {...post}
+                                postData={{...post}}
                             />
                         )
                     })

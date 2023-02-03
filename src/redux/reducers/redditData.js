@@ -115,11 +115,12 @@ const initialState = {
 export default function (state = initialState, action) {
     switch (action.type) {
         case UP_VOTE: {
+            console.log(action)
             const posts = state.posts
             const post = posts.find((post) => {
                 return post.id === action.id
             })
-            post.votes += action.value
+            post.votes+=action.value
             return {
                 ...state,
                 posts: [
