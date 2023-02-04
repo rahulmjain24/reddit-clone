@@ -107,6 +107,45 @@ const initialState = {
             image: 'https://external-preview.redd.it/9p13bKuq1BS8sICS6Da9IviKB7eTD5u_MfO2bcD8hc8.jpg?width=640&crop=smart&auto=webp&v=enabled&s=6546a437e91368e1bf437069bee094d67dda5e7f',
             rImage: 'https://styles.redditmedia.com/t5_2qh1q/styles/communityIcon_9ggb2zkszbf91.png?width=256&v=enabled&s=d19a33f79f962735225df7d9eea689c513ee3533'
             
+        },
+        {
+            id: 9,
+            title: 'The future of television is here',
+            post: "",
+            subReddit: 'NonPoliticalTwitter',
+            user: 'Iced_Coffee_IV',
+            votes: 4900,
+            time: moment("2023-01-12", "YYYY-MM-DD"),
+            comments:252,
+            image: 'https://preview.redd.it/vd8yl5oaljba1.jpg?width=640&crop=smart&auto=webp&v=enabled&s=aa811331c59ff7108d64c999226d845886ac6c8a',
+            rImage: 'https://styles.redditmedia.com/t5_39gt6y/styles/communityIcon_yyvlz7si4mm61.png?width=256&v=enabled&s=9383238774793699ff32bdda195af162bba23982'
+            
+        },
+        {
+            id: 10,
+            title: 'You were said to destroy commercial television not join them',
+            post: "",
+            subReddit: 'PrequelMemes',
+            user: 'swhighgroundmemes',
+            votes: 6100,
+            time: moment("2023-01-31", "YYYY-MM-DD"),
+            comments:51,
+            image: 'https://preview.redd.it/j1d89hjyi8fa1.jpg?width=640&crop=smart&auto=webp&v=enabled&s=e2723cf0dc9e641f399729724f997be123e2d959',
+            rImage: 'https://styles.redditmedia.com/t5_3i60n/styles/communityIcon_pnk38l2ezem91.png'
+            
+        },
+        {
+            id: 11,
+            title: 'Elden Ring wins Game of The Year at The Game Awards 2022',
+            post: "",
+            subReddit: 'Eldenring',
+            user: 'NaijeruR',
+            votes: 84100,
+            time: moment("2022-12-20", "YYYY-MM-DD"),
+            comments:3000,
+            image: 'https://preview.redd.it/ksiet7wnns4a1.png?width=640&crop=smart&auto=webp&v=enabled&s=626efaa7508080304f8a107495100e37e69aaeae',
+            rImage: 'https://styles.redditmedia.com/t5_122hf1/styles/communityIcon_h04bgma6k1p81.png?width=256&v=enabled&s=4ab8f3182dfcad106434c65cda10bb6e59838848'
+            
         }
     ]
 };
@@ -115,7 +154,6 @@ const initialState = {
 export default function (state = initialState, action) {
     switch (action.type) {
         case UP_VOTE: {
-            console.log(action)
             const posts = state.posts
             const post = posts.find((post) => {
                 return post.id === action.id
