@@ -27,13 +27,13 @@ class Posts extends React.Component {
                     })
                     :
                     posts.filter((post) => {
-                        return post.subReddit.toLowerCase().includes(query.toLowerCase())
+                        return post.sub_reddit.toLowerCase().includes(query.toLowerCase())
                     }).length === 0 
                     ? 
                     <h3>No results found!!!</h3>
                     :
                     posts.filter((post) => {
-                        return post.subReddit.toLowerCase().includes(query.toLowerCase())
+                        return post.sub_reddit.toLowerCase().includes(query.toLowerCase())
                     })
                     .map((post) => {
                         return (

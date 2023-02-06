@@ -5,10 +5,16 @@ import Edit from "./Edit"
 import validator from "validator"
 import { connect } from "react-redux"
 import { setRedditDataDispatch, setUserDataDispatch } from "../../../redux/actions"
+import axios from "axios"
 
 class Post extends React.Component {
     constructor(props) {
         super(props)
+
+        this.URL = 'https://reddit-gyae.onrender.com/redditdata/'
+
+        // this.URL = 'http://localhost:8080/redditdata/'
+
         this.state = {
             title: {value: '', isValid: true},
             post: {value: '', isValid: true},
@@ -40,6 +46,7 @@ class Post extends React.Component {
  
     render() {
         const time = moment.duration(moment().diff(this.props.postData.time))
+        // console.log(this.props)
         return (
             <div className="post d-flex flex-start">
                 <div className="vote d-flex flex-column align-items-center">
@@ -47,12 +54,45 @@ class Post extends React.Component {
                         onClick={() => {
                             if(this.props.userData.data.isLoggedIn) {
                                 if(this.props.userData.data.upVoted.includes(this.props.postData.id)) {
-                                    this.props.upVote(this.props.postData.id, -1)                                    
+                                    axios.patch(this.URL + this.props.postData.id,
+                                        {
+                                            votes: this.props.postData.votes - 1
+                                        }
+                                    )
+                                    .then((res) => {
+                                        this.props.upVote(this.props.postData.id, -1)                                    
+                                        console.log(res.data)
+                                    })
+                                    .catch((err) => {
+                                        console.error(err)
+                                    })
                                 } else {
                                     if(this.props.userData.data.downVoted.includes(this.props.postData.id)) {
-                                        this.props.upVote(this.props.postData.id, 2)
+                                        axios.patch(this.URL + this.props.postData.id,
+                                            {
+                                                votes: this.props.postData.votes + 2
+                                            }
+                                        )
+                                        .then((res) => {
+                                            this.props.upVote(this.props.postData.id, 2)                                    
+                                            console.log(res.data)
+                                        })
+                                        .catch((err) => {
+                                            console.error(err)
+                                        })
                                     } else {
-                                        this.props.upVote(this.props.postData.id, 1)
+                                        axios.patch(this.URL + this.props.postData.id,
+                                            {
+                                                votes: this.props.postData.votes + 1
+                                            }
+                                        )
+                                        .then((res) => {
+                                            this.props.upVote(this.props.postData.id, 1)                                    
+                                            console.log(res.data)
+                                        })
+                                        .catch((err) => {
+                                            console.error(err)
+                                        })
                                     }
                                 }
                             } else {
@@ -68,12 +108,46 @@ class Post extends React.Component {
                         onClick={() => {
                             if(this.props.userData.data.isLoggedIn) {
                                 if(this.props.userData.data.downVoted.includes(this.props.postData.id)) {
-                                    this.props.downVote(this.props.postData.id, 1)                                    
+                                    axios.patch(this.URL + this.props.postData.id,
+                                        {
+                                            votes: this.props.postData.votes + 1
+                                        }
+                                    )
+                                    .then((res) => {
+                                        this.props.downVote(this.props.postData.id, 1)                                    
+                                        console.log(res.data)
+                                    })
+                                    .catch((err) => {
+                                        console.error(err)
+                                    })
+                                                       
                                 } else {
                                     if(this.props.userData.data.upVoted.includes(this.props.postData.id)) {
-                                        this.props.downVote(this.props.postData.id, -2)
+                                        axios.patch(this.URL + this.props.postData.id,
+                                            {
+                                                votes: this.props.postData.votes - 2
+                                            }
+                                        )
+                                        .then((res) => {
+                                            this.props.downVote(this.props.postData.id, -2)                                    
+                                            console.log(res.data)
+                                        })
+                                        .catch((err) => {
+                                            console.error(err)
+                                        })
                                     } else {
-                                        this.props.downVote(this.props.postData.id, -1)
+                                        axios.patch(this.URL + this.props.postData.id,
+                                            {
+                                                votes: this.props.postData.votes - 1
+                                            }
+                                        )
+                                        .then((res) => {
+                                            this.props.downVote(this.props.postData.id, -1)                                    
+                                            console.log(res.data)
+                                        })
+                                        .catch((err) => {
+                                            console.error(err)
+                                        })
                                     }
                                 }
                             } else {
@@ -88,10 +162,10 @@ class Post extends React.Component {
                 <div className="post-data flex-grow-1 d-flex flex-column">
                     <div className="meta-data d-flex">
                         <div className="r-image">
-                            <img src={this.props.postData.rImage} alt="" />
+                            <img src={this.props.postData.r_image} alt="" />
                         </div>
-                        <div className="r-reddit"><b>r/{this.props.postData.subReddit}</b></div>
-                        <div className="r-user">Posted by u/{this.props.postData.user}</div>
+                        <div className="r-reddit"><b>r/{this.props.postData.sub_reddit}</b></div>
+                        <div className="r-user">Posted by u/{this.props.postData.user_name}</div>
                         <div className="r-time">
                             {
                                 Math.floor(time.asHours()) <= 24 ?
