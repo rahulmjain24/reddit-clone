@@ -12,8 +12,14 @@ class Post extends React.Component {
         super(props)
 
         this.URL = 'https://reddit-gyae.onrender.com/redditdata/'
-
         // this.URL = 'http://localhost:8080/redditdata/'
+        this.API_STATES = {
+            LOADING:'loading',
+            LOADED:'loaded',
+            ERROR:'error',
+            NONE:'none'
+        }
+
 
         this.state = {
             title: {value: '', isValid: true},
@@ -21,7 +27,8 @@ class Post extends React.Component {
             image: {value: '', isValid: true},
             isBeingEdited: false,
             upvote: false, 
-            downvote: false 
+            downvote: false,
+            update: this.API_STATES.NONE
         }
     }
 
@@ -54,44 +61,77 @@ class Post extends React.Component {
                         onClick={() => {
                             if(this.props.userData.data.isLoggedIn) {
                                 if(this.props.userData.data.upVoted.includes(this.props.postData.id)) {
-                                    axios.patch(this.URL + this.props.postData.id,
-                                        {
-                                            votes: this.props.postData.votes - 1
-                                        }
-                                    )
-                                    .then((res) => {
-                                        this.props.upVote(this.props.postData.id, -1)                                    
-                                        console.log(res.data)
-                                    })
-                                    .catch((err) => {
-                                        console.error(err)
+                                    this.setState({
+                                        update: this.API_STATES.LOADING
+                                    }, 
+                                    () => {
+                                        axios.patch(this.URL + this.props.postData.id,
+                                            {
+                                                votes: this.props.postData.votes - 1
+                                            }
+                                        )
+                                        .then((res) => {
+                                            this.props.upVote(this.props.postData.id, -1)                                    
+                                            console.log(res.data)
+                                            this.setState({
+                                                update: this.API_STATES.LOADED
+                                            })
+                                        })
+                                        .catch((err) => {
+                                            console.error(err)
+                                            this.setState({
+                                                update: this.API_STATES.ERROR
+                                            })
+                                        })
                                     })
                                 } else {
                                     if(this.props.userData.data.downVoted.includes(this.props.postData.id)) {
-                                        axios.patch(this.URL + this.props.postData.id,
-                                            {
-                                                votes: this.props.postData.votes + 2
-                                            }
-                                        )
-                                        .then((res) => {
-                                            this.props.upVote(this.props.postData.id, 2)                                    
-                                            console.log(res.data)
-                                        })
-                                        .catch((err) => {
-                                            console.error(err)
+                                        this.setState({
+                                            update: this.API_STATES.LOADING
+                                        }, 
+                                        () => {
+                                            axios.patch(this.URL + this.props.postData.id,
+                                                {
+                                                    votes: this.props.postData.votes + 2
+                                                }
+                                            )
+                                            .then((res) => {
+                                                this.props.upVote(this.props.postData.id, 2)                                    
+                                                console.log(res.data)
+                                                this.setState({
+                                                    update: this.API_STATES.LOADED
+                                                })
+                                            })
+                                            .catch((err) => {
+                                                console.error(err)
+                                                this.setState({
+                                                    update: this.API_STATES.ERROR
+                                                })
+                                            })
                                         })
                                     } else {
-                                        axios.patch(this.URL + this.props.postData.id,
-                                            {
-                                                votes: this.props.postData.votes + 1
-                                            }
-                                        )
-                                        .then((res) => {
-                                            this.props.upVote(this.props.postData.id, 1)                                    
-                                            console.log(res.data)
-                                        })
-                                        .catch((err) => {
-                                            console.error(err)
+                                        this.setState({
+                                            update: this.API_STATES.LOADING
+                                        }, 
+                                        () => {
+                                            axios.patch(this.URL + this.props.postData.id,
+                                                {
+                                                    votes: this.props.postData.votes + 1
+                                                }
+                                            )
+                                            .then((res) => {
+                                                this.props.upVote(this.props.postData.id, 1)                                    
+                                                console.log(res.data)
+                                                this.setState({
+                                                    update: this.API_STATES.LOADED
+                                                })
+                                            })
+                                            .catch((err) => {
+                                                console.error(err)
+                                                this.setState({
+                                                    update: this.API_STATES.ERROR
+                                                })
+                                            })
                                         })
                                     }
                                 }
@@ -108,45 +148,78 @@ class Post extends React.Component {
                         onClick={() => {
                             if(this.props.userData.data.isLoggedIn) {
                                 if(this.props.userData.data.downVoted.includes(this.props.postData.id)) {
-                                    axios.patch(this.URL + this.props.postData.id,
-                                        {
-                                            votes: this.props.postData.votes + 1
-                                        }
-                                    )
-                                    .then((res) => {
-                                        this.props.downVote(this.props.postData.id, 1)                                    
-                                        console.log(res.data)
-                                    })
-                                    .catch((err) => {
-                                        console.error(err)
+                                    this.setState({
+                                        update: this.API_STATES.LOADING
+                                    }, 
+                                    () => {
+                                        axios.patch(this.URL + this.props.postData.id,
+                                            {
+                                                votes: this.props.postData.votes + 1
+                                            }
+                                        )
+                                        .then((res) => {
+                                            this.props.downVote(this.props.postData.id, 1)                                    
+                                            console.log(res.data)
+                                            this.setState({
+                                                update: this.API_STATES.LOADED
+                                            })
+                                        })
+                                        .catch((err) => {
+                                            console.error(err)
+                                            this.setState({
+                                                update: this.API_STATES.ERROR
+                                            })
+                                        })
                                     })
                                                        
                                 } else {
                                     if(this.props.userData.data.upVoted.includes(this.props.postData.id)) {
-                                        axios.patch(this.URL + this.props.postData.id,
-                                            {
-                                                votes: this.props.postData.votes - 2
-                                            }
-                                        )
-                                        .then((res) => {
-                                            this.props.downVote(this.props.postData.id, -2)                                    
-                                            console.log(res.data)
-                                        })
-                                        .catch((err) => {
-                                            console.error(err)
+                                        this.setState({
+                                            update: this.API_STATES.LOADING
+                                        }, 
+                                        () => {
+                                            axios.patch(this.URL + this.props.postData.id,
+                                                {
+                                                    votes: this.props.postData.votes - 2
+                                                }
+                                            )
+                                            .then((res) => {
+                                                this.props.downVote(this.props.postData.id, -2)                                    
+                                                console.log(res.data)
+                                                this.setState({
+                                                    update: this.API_STATES.LOADED
+                                                })
+                                            })
+                                            .catch((err) => {
+                                                console.error(err)
+                                                this.setState({
+                                                    update: this.API_STATES.ERROR
+                                                })
+                                            })
                                         })
                                     } else {
-                                        axios.patch(this.URL + this.props.postData.id,
-                                            {
-                                                votes: this.props.postData.votes - 1
-                                            }
-                                        )
-                                        .then((res) => {
-                                            this.props.downVote(this.props.postData.id, -1)                                    
-                                            console.log(res.data)
-                                        })
-                                        .catch((err) => {
-                                            console.error(err)
+                                        this.setState({
+                                            update: this.API_STATES.LOADING
+                                        }, 
+                                        () => {
+                                            axios.patch(this.URL + this.props.postData.id,
+                                                {
+                                                    votes: this.props.postData.votes - 1
+                                                }
+                                            )
+                                            .then((res) => {
+                                                this.props.downVote(this.props.postData.id, -1)                                    
+                                                console.log(res.data)
+                                                this.setState({
+                                                    update: this.API_STATES.LOADED
+                                                })
+                                            })
+                                            .catch((err) => {
+                                                console.error(err)
+                                                this.setState({
+                                                    update: this.API_STATES.ERROR
+                                                })
+                                            })
                                         })
                                     }
                                 }
@@ -280,18 +353,41 @@ class Post extends React.Component {
                                         return {
                                             isBeingEdited: !prevState.isBeingEdited
                                         }
+                                    }, 
+                                    () => {
+                                        const {title, post, image} = this.state
+                                        if(title.value !== '' && title.isValid) {
+                                            editedObj['title'] = title.value
+                                        }
+                                        if(post.value !== '' && post.isValid) {
+                                            editedObj['post'] = post.value
+                                        }
+                                        if(image.value !== '' && image.isValid) {
+                                            editedObj['image'] = image.value
+                                        }        
+                                        if(!this.state.isBeingEdited) {
+                                            this.setState({
+                                                update: this.API_STATES.LOADING
+                                            }, 
+                                            () => {
+                                                axios.patch(this.URL + this.props.postData.id,
+                                                    {
+                                                        ...editedObj
+                                                    }
+                                                )
+                                                .then((res) => {
+                                                    this.props.updateData(this.props.postData.id, editedObj)
+                                                    console.log(res.data)
+                                                    this.setState({update: this.API_STATES.LOADED})
+                                                })
+                                                .catch((err) => {
+                                                    console.error(err)
+                                                    this.setState({update: this.API_STATES.ERROR})
+                                                })
+                                            }
+                                            )
+                                        }
                                     })
-                                    const {title, post, image} = this.state
-                                    if(title.value !== '' && title.isValid) {
-                                        editedObj['title'] = title.value
-                                    }
-                                    if(post.value !== '' && post.isValid) {
-                                        editedObj['post'] = post.value
-                                    }
-                                    if(image.value !== '' && image.isValid) {
-                                        editedObj['image'] = image.value
-                                    }
-                                    this.props.updateData(this.props.postData.id, editedObj)
                                 } else {
                                     this.props.manageForm()
                                 }
@@ -300,6 +396,15 @@ class Post extends React.Component {
                             <i className="fa-solid fa-ellipsis fa-xl footer-icon"></i>
                             {this.state.isBeingEdited && this.props.userData.data.isLoggedIn ? 'Save' : 'Edit'}
                         </button>
+                        
+                        {
+                            this.state.update === this.API_STATES.LOADING &&  
+                            <div className="spinner-border spinner-border-sm" role="status">
+                                <span className="sr-only">Loading...</span>
+                            </div>
+                        }
+                        {this.state.update === this.API_STATES.LOADED &&  <span className="text-success">Updated Successfully</span>}
+                        {this.state.update === this.API_STATES.ERROR &&  <span className="text-danger">Updates were unsuccessful, please try again!!</span>}
                     </div>
                 </div>
             </div>
